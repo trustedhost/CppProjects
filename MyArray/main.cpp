@@ -5,9 +5,12 @@
 namespace MyArray{
 class Array;
 class Int; // Array에 [] 연산자를 도입하기 위해서 결과값인 int 처럼 행동하도록 wrapper class 를 선언한다.
+//[] 연산자를 통해서 int 값에 접근할 때에는 int 변수처럼 행동하고, 아닌 경우, 주소값을 반환하도록 해야 한다.
+// void* data 를 두어, level 이 dim-1  인 경우 data 를 int* 로 형변환, 아닌 경우 Address* 로 형변환.
 
 
 class Array {
+friend Int;
 private:
     const int dim; // 몇 차원 배열인지.
     int* size; // 각 차원마다 몇 개의 배열이 있는지.
@@ -17,7 +20,6 @@ private:
     };
     Address* top;
 
-
 public:
     Array(int dim, int* array_size);
     Array(const Array& arr);
@@ -25,6 +27,14 @@ public:
     void initialize_address(Address* current);
     void copy_address(Address * dst, Address * src);
     void delete_address(Address* current);
+    Int operator[](const int index);
+
+};
+class Int {
+private:
+    void* data;
+    int level;
+    Array* array;
 
 };
 
