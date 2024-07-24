@@ -3,6 +3,10 @@
 //나만의 Array 를 만드는 프로젝트.
 
 namespace MyArray{
+class Array;
+class Int; // Array에 [] 연산자를 도입하기 위해서 결과값인 int 처럼 행동하도록 wrapper class 를 선언한다.
+
+
 class Array {
 private:
     const int dim; // 몇 차원 배열인지.
