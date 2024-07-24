@@ -4,7 +4,8 @@
 
 namespace MyArray{
 class Array;
-class Int; // Array에 [] 연산자를 도입하기 위해서 결과값인 int 처럼 행동하도록 wrapper class 를 선언한다.
+class Int;
+// Array에 [] 연산자를 도입하기 위해서 결과값인 int 처럼 행동하도록 wrapper class 를 선언한다.
 //[] 연산자를 통해서 int 값에 접근할 때에는 int 변수처럼 행동하고, 아닌 경우, 주소값을 반환하도록 해야 한다.
 // void* data 를 두어, level 이 dim-1  인 경우 data 를 int* 로 형변환, 아닌 경우 Address* 로 형변환.
 
@@ -32,14 +33,19 @@ public:
 };
 class Int {
 private:
-    void* data;
     int level;
+    void* data;
     Array* array;
 
+public:
+    Int(int index, int _level = 0, void* _data = NULL, Array* _array = NULL);
+    Int(const Int& i);
+    Int operator[](int index);
+    operator int();
+    Int& operator=(const int& a);
 };
 
-
-Array::Array(int dim, int* array_size) : dim(dim) {
+Array::Array(int dim, int *array_size) : dim(dim) {
     size = new int[dim];
     for (int i = 0; i < dim; i++) {
         size[i] = array_size[i];
@@ -93,7 +99,7 @@ void Array::copy_address(Address *dst, Address *src) {
 
 void Array::delete_address(Address *current) {
     if (!current) return;
-    for (int i = 0; i < size[current->level]; i++) {
+    for (int i = 0; current->level < dim - 1 && i < size[current->level]; i++) {
         delete_address(static_cast<Address*>(current->next) + i);
     }
     if (current->level == dim - 1) {
@@ -104,10 +110,62 @@ void Array::delete_address(Address *current) {
     }
 }
 
+Int Array::operator[](const int index) {
+    return Int(index, 1, static_cast<void*>(top), this);
+}
+
+Int::Int(int index, int _level, void *_data, Array *_array) : level(_level), data(_data), array(_array) {
+    if(level < 1 || index >= array->size[level - 1]) {
+        data = NULL;
+        return;
+    }
+    if (level == array->dim) {
+        data = static_cast<void*>(static_cast<int*>(static_cast<Array::Address*>(data)->next) + index);
+    } else {
+        data = static_cast<void*>( static_cast<Array::Address*>( static_cast<Array::Address*>(data)->next) + index);
+    }
+
+}
+
+Int::Int(const Int &i) : level(i.level), data(i.data), array(i.array) {}
+
+Int Int::operator[](int index) {
+    if (!data) return 0;
+    return Int(index, level + 1, data, array);
+}
+
+Int::operator int() {
+    if(data) return *static_cast<int *>(data);
+    return 0;
+}
+
+Int &Int::operator=(const int &a) {
+    if (data) *static_cast<int*>(data) = a;
+    return *this;
+}
+
+
 }
 
 
 int main() {
-    return 0;
+    int size[] = {2, 3, 4};
+    MyArray::Array arr(3, size);
+
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 4; k++) {
+                arr[i][j][k] = (i + 1) * (j + 1) * (k + 1);
+            }
+        }
+    }
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 4; k++) {
+                std::cout << i << " " << j << " " << k << " " << arr[i][j][k]
+                          << std::endl;
+            }
+        }
+    }
 
 }
