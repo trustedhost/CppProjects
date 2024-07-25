@@ -6,7 +6,10 @@ EmployeeList::EmployeeList(int alloc_employee)
     : alloc_employee(alloc_employee)
 {
     employee_list = new Employee*[alloc_employee];
+    manager_list = new Manager*[alloc_employee];
+
     current_employee = 0;
+    current_manager = 0;
 }
 
 void EmployeeList::add_employee(Employee *employee)

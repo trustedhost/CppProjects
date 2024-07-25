@@ -13,6 +13,11 @@ Employee::Employee(const Employee &employee)
     rank = employee.rank;
 }
 
+Employee::Employee()
+{
+
+}
+
 void Employee::print_info()
 {
     std::cout << "name : " << name << std::endl;

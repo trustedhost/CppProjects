@@ -12,9 +12,9 @@ protected:
     int rank;
 
 public:
-    Employee();
     Employee(std::string name, int age, std::string position, int rank);
     Employee(const Employee& employee);
+    Employee();
     void print_info();
     int calculate_pay();
 };
