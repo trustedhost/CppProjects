@@ -1,9 +1,10 @@
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
-#include <iostream>
 
+#include <iostream>
 class Employee
 {
+protected:
     std::string name;
     int age;
 
@@ -14,7 +15,6 @@ public:
     Employee();
     Employee(std::string name, int age, std::string position, int rank);
     Employee(const Employee& employee);
-
     void print_info();
     int calculate_pay();
 };
