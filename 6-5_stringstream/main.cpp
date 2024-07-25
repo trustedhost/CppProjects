@@ -2,14 +2,22 @@
 #include <sstream>
 
 double to_number(std::string s) {
-    std::istringstream ss(s);
+    std::istringstream iss(s);
     double x;
-    ss >> x;
+    iss >> x;
     return x;
+}
+
+std::string to_str(int x){
+    std::ostringstream oss;
+    oss << x;
+    oss << 7;
+    return oss.str();
 }
 
 int main()
 {
-    std::cout << to_number("1") + 7<< std::endl;
+    std::cout << to_number("8 a")<< std::endl;
+    std::cout << to_str(2) << std::endl;
     return 0;
 }
