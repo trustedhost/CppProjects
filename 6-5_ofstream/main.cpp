@@ -21,7 +21,7 @@ std::ofstream& operator<<(std::ofstream& o, Human& h) {
 int main()
 {
     //적는 부분
-    std::ofstream out("test.txt");
+    std::ofstream out("test.txt", std::ios::app);
     Human h("정채훈", 28);
     out << h << std::endl;
 
@@ -32,8 +32,10 @@ int main()
     std::string s;
     in.open("test.txt");
     if(in.is_open()){
-        getline(in, s);
-        std::cout << s << std::endl;
+        while(in){
+            getline(in, s);
+            std::cout << s << std::endl;
+        }
     }
     in.close();
 
