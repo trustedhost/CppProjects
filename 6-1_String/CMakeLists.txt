@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(6-1_String main.cpp
-    employee.h employee.cpp)
+    employee.h employee.cpp
+    employeelist.h employeelist.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS 6-1_String
