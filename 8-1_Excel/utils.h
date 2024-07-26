@@ -124,5 +124,18 @@ using std::max;
         string print_table();
 
     };
+    class HtmlTable : public Table {
+    public:
+        HtmlTable(int row, int col);
+
+        string print_table();
+    };
+
+    class CSVTable : public Table {
+    public:
+        CSVTable(int row, int col);
+
+        string print_table();
+    };
 }
 #endif
