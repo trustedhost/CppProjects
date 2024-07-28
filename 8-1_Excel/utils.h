@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <time.h>
+
 using std::string;
 using std::to_string;
 using std::max;
@@ -10,7 +12,7 @@ using std::max;
     namespace MyExcel {
     class Table;
     class Cell;
-    class TxtTable;
+
     class Vector {
         string* data;
         int capacity;
@@ -90,11 +92,11 @@ using std::max;
 
         string data;
     public:
-        virtual string stringify();
-        virtual int to_numeric();
+        virtual string stringify() = 0;
+        virtual int to_numeric() = 0;
 
-        Cell(string data, int x, int y, Table* table);
-
+        Cell(int x, int y, Table* table);
+        virtual ~Cell() = default;
     };
     class Table {
     protected:
@@ -115,6 +117,42 @@ using std::max;
     };
 
     std::ostream& operator<<(std::ostream& o, Table& table);
+
+
+    class StringCell : public Cell {
+        string data;
+    public:
+        StringCell(const string &data, int x, int y, Table* t);
+        string stringify() override;
+        int to_numeric() override;
+    };
+    class NumberCell : public Cell {
+        int data;
+    public:
+        NumberCell(const int& data, int x, int y, Table* t);
+        string stringify() override;
+        int to_numeric() override;
+    };
+    class DateCell : public Cell {
+        time_t data;
+    public:
+        DateCell(string s, int x, int y, Table* t);
+        string stringify() override;
+        int to_numeric() override;
+    };
+    class ExprCell : public Cell {
+        string data;
+        // string* parsed_expr;
+        Vector exp_vec;
+        int precedence(char c);
+        void parse_expression();
+
+    public:
+        ExprCell(string data, int x, int y, Table* t);
+        string stringify() override;
+        int to_numeric() override;
+    };
+
 
     class TxtTable : public Table {
         string repeat_char(int n, char c);

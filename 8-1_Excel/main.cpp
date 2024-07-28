@@ -6,20 +6,14 @@
 using namespace MyExcel;
 
 int main() {
-    MyExcel::CSVTable table(5, 5);
-    std::ofstream out("test.csv");
+    MyExcel::TxtTable table(5, 5);
+    table.reg_cell(new NumberCell(2, 1, 1, &table), 1, 1);
+    table.reg_cell(new NumberCell(3, 1, 2, &table), 1, 2);
 
-    table.reg_cell(new Cell("Hello~", 0, 0, &table), 0, 0);
-    table.reg_cell(new Cell("C++", 0, 1, &table), 0, 1);
+    table.reg_cell(new NumberCell(4, 2, 1, &table), 2, 1);
+    table.reg_cell(new NumberCell(5, 2, 2, &table), 2, 2);
+    table.reg_cell(new ExprCell("B2+B3*(C2+C3-2)", 3, 3, &table), 3, 2);
+    table.reg_cell(new StringCell("B2 + B3 * ( C2 + C3 - 2 ) = ", 3, 2, &table), 3, 1);
 
-    table.reg_cell(new Cell("Programming", 1, 1, &table), 1, 1);
-    out << table;
-
-    MyExcel::HtmlTable table2(5, 5);
-    std::ofstream out2("test.html");
-
-    table2.reg_cell(new Cell("Hello~", 0, 0, &table), 0, 0);
-    table2.reg_cell(new Cell("C++", 0, 1, &table), 0, 1);
-    table2.reg_cell(new Cell("Programming", 1, 1, &table), 1, 1);
-    out2 << table2;
+    std::cout << table;
 }
