@@ -93,23 +93,41 @@
 //     return n + sum_all(nums...);
 // }
 
-// int average ver 3
-// C++ 17 에 도입.
+// // int average ver 3
+// // C++ 17 에 도입.
 
-template <typename... Ints>
-int sum_all(Ints... nums) {
-    return (... + nums); // ((((1 + 2) + 3) + 4) + 5)
-    // (nums + ...) (O) // (1 + (2 + (3 + (4 + 5))))
-    // nums + ... (X)
+// template <typename... Ints>
+// int sum_all(Ints... nums) {
+//     return (... + nums); // ((((1 + 2) + 3) + 4) + 5)
+//     // (nums + ...) (O) // (1 + (2 + (3 + (4 + 5))))
+//     // nums + ... (X)
 
+// }
+
+// template <typename... Ints>
+// double average(Ints... nums) {
+//     return static_cast<double>(sum_all(nums...))/sizeof...(nums);
+// }
+
+// variadic_template 의 활용
+class A {
+public:
+    void do_something(int n) const {
+        std::cout << n << std::endl;
+    }
+};
+
+template <typename T, typename... Ints>
+void do_manything(const T& c, Ints... nums) {
+    (c.do_something(nums), ...);
+    return;
 }
 
-template <typename... Ints>
-double average(Ints... nums) {
-    return static_cast<double>(sum_all(nums...))/sizeof...(nums);
-}
 int main()
 {
-    std::cout << average(1, 2, 3, 4, 5) << std::endl;
+    // std::cout << average(1, 2, 3, 4, 5) << std::endl;
+    A a;
+    a.do_something(2);
+    do_manything(a, 1, 2, 3, 4, 5);
     return 0;
 }
