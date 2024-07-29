@@ -54,35 +54,54 @@
 // }
 
 
-// int 의 average 구하기 ver 1
-template <typename Int>
-unsigned int sizeofary(Int p) {
-    return 1;
-}
-// 여러 인자를 위한 재귀 케이스
-template <typename Int, typename... Ints>
-unsigned int sizeofary(Int p, Ints... nums) {
-    return sizeofary(p) + sizeofary(nums...);
-}
-template <typename Int>
-int sum(Int p) {
-    return p;
-}
-template <typename Int, typename... Ints>
-int sum(Int p, Ints... nums) {
-    return sum(p) + sum(nums...);
-}
+// // int 의 average 구하기 ver 1
+// template <typename Int>
+// unsigned int sizeofary(Int p) {
+//     return 1;
+// }
+// // 여러 인자를 위한 재귀 케이스
+// template <typename Int, typename... Ints>
+// unsigned int sizeofary(Int p, Ints... nums) {
+//     return sizeofary(p) + sizeofary(nums...);
+// }
+// template <typename Int>
+// int sum(Int p) {
+//     return p;
+// }
+// template <typename Int, typename... Ints>
+// int sum(Int p, Ints... nums) {
+//     return sum(p) + sum(nums...);
+// }
+
+// template <typename Int, typename... Ints>
+// double average(Int p, Ints... nums) {
+//     unsigned int total_counts;
+//     double result;
+//     int sum_arr;
+//     total_counts = sizeofary(p, nums...);
+//     sum_arr = sum(p, nums...);
+//     result = (static_cast<double>(sum_arr) / total_counts);
+//     return result;
+// }
+
+// int average ver 2
+//재귀함수 종료를 위한 케이스
+int sum_all() {return 0;}
 
 template <typename Int, typename... Ints>
-double average(Int p, Ints... nums) {
-    unsigned int total_counts;
-    double result;
-    int sum_arr;
-    total_counts = sizeofary(p, nums...);
-    sum_arr = sum(p, nums...);
-    result = (static_cast<double>(sum_arr) / total_counts);
-    return result;
+int sum_all(Int n, Ints... nums) {
+    return n + sum_all(nums...);
 }
+template <typename... Ints>
+int sum_all(Ints... nums) {
+    return sum_all(nums...);
+}
+
+template <typename... Ints>
+double average(Ints... nums) {
+    return static_cast<double>(sum_all(nums...))/sizeof...(nums);
+}
+
 
 int main()
 {
