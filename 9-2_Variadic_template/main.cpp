@@ -84,17 +84,13 @@
 //     return result;
 // }
 
-// int average ver 2
+// int average ver 2.2
 //재귀함수 종료를 위한 케이스
 int sum_all() {return 0;}
 
-template <typename Int, typename... Ints>
-int sum_all(Int n, Ints... nums) {
-    return n + sum_all(nums...);
-}
 template <typename... Ints>
-int sum_all(Ints... nums) {
-    return sum_all(nums...);
+int sum_all(int n, Ints... nums) {
+    return n + sum_all(nums...);
 }
 
 template <typename... Ints>
