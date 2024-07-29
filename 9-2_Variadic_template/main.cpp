@@ -84,20 +84,27 @@
 //     return result;
 // }
 
-// int average ver 2.2
-//재귀함수 종료를 위한 케이스
-int sum_all() {return 0;}
+// // int average ver 2.2
+// //재귀함수 종료를 위한 케이스
+// int sum_all() {return 0;}
+
+// template <typename... Ints>
+// int sum_all(int n, Ints... nums) {
+//     return n + sum_all(nums...);
+// }
+
+// int average ver 3
+// C++ 17 에 도입.
 
 template <typename... Ints>
-int sum_all(int n, Ints... nums) {
-    return n + sum_all(nums...);
+int sum_all(Ints... nums) {
+    return (... + nums);
 }
 
 template <typename... Ints>
 double average(Ints... nums) {
     return static_cast<double>(sum_all(nums...))/sizeof...(nums);
 }
-
 
 int main()
 {
