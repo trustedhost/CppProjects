@@ -98,16 +98,18 @@
 
 template <typename... Ints>
 int sum_all(Ints... nums) {
-    return (... + nums);
+    return (... + nums); // ((((1 + 2) + 3) + 4) + 5)
+    // (nums + ...) (O) // (1 + (2 + (3 + (4 + 5))))
+    // nums + ... (X)
+
 }
 
 template <typename... Ints>
 double average(Ints... nums) {
     return static_cast<double>(sum_all(nums...))/sizeof...(nums);
 }
-
 int main()
 {
-    std::cout << average(1, 1, 17, 4, 5) << std::endl;
+    std::cout << average(1, 2, 3, 4, 5) << std::endl;
     return 0;
 }
