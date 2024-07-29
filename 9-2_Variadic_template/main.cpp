@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 // //verson 1 ( 할당 자주함 )
 // template <typename String>
 // std::string StrCat(String& s) {
@@ -13,47 +14,78 @@
 
 
 
-//ver 2 (할당 한 번에 함.)
-size_t GetStringSize(const char* s) {
-    return strlen(s);
+// //ver 2 (할당 한 번에 함.)
+// size_t GetStringSize(const char* s) {
+//     return strlen(s);
+// }
+
+// template <typename String>
+// size_t GetStringSize(const String& s) {
+//     return s.size();
+// }
+
+// template <typename String, typename... Strings>
+// size_t GetStringSize(String& s, Strings... strs) {
+//     return GetStringSize(s) + GetStringSize(strs...);
+// }
+
+// void AppendToString(std::string* concat_string) {
+//     return ;
+// }
+
+// template <typename String, typename... Strings>
+// void AppendToString(std::string* concat_string, String s, Strings... strs) {
+//     concat_string->append(s);
+//     AppendToString(concat_string, strs...);
+
+// }
+
+// template <typename String, typename... Strings>
+// std::string StrCat(const String& s, Strings... strs) {
+//     size_t total_size;
+//     total_size = GetStringSize(s, strs...);
+
+//     std::string concat_string;
+//     concat_string.reserve(total_size);
+
+//     AppendToString(&concat_string, s, strs...);
+
+//     return concat_string;
+// }
+
+
+// int 의 average 구하기 ver 1
+template <typename Int>
+unsigned int sizeofary(Int p) {
+    return 1;
+}
+// 여러 인자를 위한 재귀 케이스
+template <typename Int, typename... Ints>
+unsigned int sizeofary(Int p, Ints... nums) {
+    return sizeofary(p) + sizeofary(nums...);
+}
+template <typename Int>
+int sum(Int p) {
+    return p;
+}
+template <typename Int, typename... Ints>
+int sum(Int p, Ints... nums) {
+    return sum(p) + sum(nums...);
 }
 
-template <typename String>
-size_t GetStringSize(const String& s) {
-    return s.size();
-}
-
-template <typename String, typename... Strings>
-size_t GetStringSize(String& s, Strings... strs) {
-    return GetStringSize(s) + GetStringSize(strs...);
-}
-
-void AppendToString(std::string* concat_string) {
-    return ;
-}
-
-template <typename String, typename... Strings>
-void AppendToString(std::string* concat_string, String s, Strings... strs) {
-    concat_string->append(s);
-    AppendToString(concat_string, strs...);
-
-}
-
-template <typename String, typename... Strings>
-std::string StrCat(const String& s, Strings... strs) {
-    size_t total_size;
-    total_size = GetStringSize(s, strs...);
-
-    std::string concat_string;
-    concat_string.reserve(total_size);
-
-    AppendToString(&concat_string, s, strs...);
-
-    return concat_string;
+template <typename Int, typename... Ints>
+double average(Int p, Ints... nums) {
+    unsigned int total_counts;
+    double result;
+    int sum_arr;
+    total_counts = sizeofary(p, nums...);
+    sum_arr = sum(p, nums...);
+    result = (static_cast<double>(sum_arr) / total_counts);
+    return result;
 }
 
 int main()
 {
-    std::cout << StrCat("a", "b", "h" , " " ) << std::endl;
+    std::cout << average(1, 1, 17, 4, 5) << std::endl;
     return 0;
 }
