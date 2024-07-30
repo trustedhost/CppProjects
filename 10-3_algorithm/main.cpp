@@ -63,7 +63,14 @@ int main()
 
 
     int remove_count = 0;
-    int_vec.erase(std::remove_if(int_vec.begin(), int_vec.end(), is_odd4(&remove_count)), int_vec.end());
+    int_vec.erase(std::remove_if(int_vec.begin(), int_vec.end(), [&remove_count](int i) -> bool {
+                      if (remove_count >= 3) {
+                          return false;
+                      } else {
+                          remove_count++;
+                          return i % 2 == 1;
+                      }
+                  }), int_vec.end());
 
     print_iter(int_vec.begin(), int_vec.end());
     print_vector(int_vec);
