@@ -27,6 +27,16 @@ bool is_odd2(int i) {
     return i % 2 == 1;
 }
 
+struct is_odd3 {
+    int remove_count;
+    bool operator() (int i) {
+        if (remove_count >= 3) return false;
+        else {
+            remove_count++;
+            return i % 2 == 1;
+        }
+    }
+};
 
 int main()
 {
@@ -39,7 +49,7 @@ int main()
     int_vec.push_back(2);
     int_vec.push_back(3);
 
-    int_vec.erase(std::remove_if(int_vec.begin(), int_vec.end(), is_odd2), int_vec.end());
+    int_vec.erase(std::remove_if(int_vec.begin(), int_vec.end(), is_odd3()), int_vec.end());
 
     print_iter(int_vec.begin(), int_vec.end());
     print_vector(int_vec);
