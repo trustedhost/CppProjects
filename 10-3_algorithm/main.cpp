@@ -73,6 +73,9 @@ int main()
                   }), int_vec.end());
 
     print_iter(int_vec.begin(), int_vec.end());
-    print_vector(int_vec);
 
+    //transform (시작, 끝, 저장할 컨테이너의 시작 반복자, Predicate)
+    std::transform(int_vec.begin(), int_vec.end(), int_vec.begin(), [](int i) { return i + 1; });
+
+    print_iter(int_vec.begin(), int_vec.end());
 }
