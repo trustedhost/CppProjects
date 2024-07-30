@@ -72,10 +72,14 @@ int main()
                       }
                   }), int_vec.end());
 
-    print_iter(int_vec.begin(), int_vec.end());
+    print_iter(int_vec.begin(), int_vec.end()); //42123
+
+    std::vector<int> int_vec2(6, 0);//6칸의 벡터를 0으로 초기화.
 
     //transform (시작, 끝, 저장할 컨테이너의 시작 반복자, Predicate)
-    std::transform(int_vec.begin(), int_vec.end(), int_vec.begin(), [](int i) { return i + 1; });
+    std::transform(int_vec.begin(), int_vec.end(), int_vec2.begin(), [](int i) { return i + 1; });
 
-    print_iter(int_vec.begin(), int_vec.end());
+    print_iter(int_vec.begin(), int_vec.end()); //42123
+
+    print_iter(int_vec2.begin(), int_vec2.end()); //532340
 }
