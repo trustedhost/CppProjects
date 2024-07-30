@@ -82,4 +82,20 @@ int main()
     print_iter(int_vec.begin(), int_vec.end()); //42123
 
     print_iter(int_vec2.begin(), int_vec2.end()); //532340
+
+
+    std::cout << std::distance(int_vec.begin(), std::find(int_vec.begin(), int_vec.end(), 3)) << std::endl;
+
+    auto current = int_vec.begin();
+    while(true) {
+        current = std::find_if(current, int_vec.end(), [](int i) -> bool { return i % 2 == 0; });
+        if (current == int_vec.end()) break;
+        else {
+            std::cout << std::distance(int_vec.begin(), current) + 1 << std::endl;
+            current++;
+        }
+    }
+
+
+
 }
