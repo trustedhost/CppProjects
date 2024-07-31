@@ -12,6 +12,7 @@ class B {
     A a_;
 public:
     B(const A& a_) : a_(a_) {}
+    B(A&& a_) : a_(a_) {}
 };
 
 int main()
