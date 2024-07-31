@@ -12,13 +12,13 @@ class B {
     A a_;
 public:
     B(const A& a_) : a_(a_) {}
-    B(A&& a_) : a_(a_) {}
+    B(A&& a_) : a_(std::move(a_)) {}
 };
 
 int main()
 {
     A a;
     std::cout << "create B" << std::endl;
-    B b(a);
+    B b(std::move(a));
     return 0;
 }
