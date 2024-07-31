@@ -5,7 +5,7 @@ using namespace std;
 class Resource {
     int num;
 public:
-    explicit Resource(int num) : num(num) {
+    Resource(int num = 1) : num(num) {
         std::cout << "생성자 실행" << std::endl;
     }
     ~Resource() {
@@ -14,11 +14,11 @@ public:
 };
 
 class Manager {
-    Resource *resource;
+    std::unique_ptr<Resource> resource;
 
 public:
     explicit Manager() {
-        resource = new Resource(1);
+        resource = std::make_unique<Resource>();
         if (true) {
             throw std::out_of_range("exception!!");
         }
