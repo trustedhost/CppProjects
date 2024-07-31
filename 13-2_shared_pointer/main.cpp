@@ -20,9 +20,13 @@ public:
 int main()
 {
     std::vector<std::shared_ptr<A>> vec;
-    std::shared_ptr<A> ptr = std::make_shared<A>();
-    std::shared_ptr<A> ptr2 = std::shared_ptr(ptr->get_shared_ptr());
-    vec.push_back(ptr2);
+    std::shared_ptr<A> ptr = std::make_shared<A>(); // +1
+    std::shared_ptr<A> ptr2 = ptr->get_shared_ptr(); // +1
+    vec.push_back(ptr2); // shared_ptr 을 하나 복사하여 vec 에 저장. +1
+    vec.push_back(std::move(ptr2));// 기존 ptr 을 없애고 이동하여 vec 에 저장 . +0
+
+
+    std::cout << ptr.use_count() << std::endl;
 
 
 }
