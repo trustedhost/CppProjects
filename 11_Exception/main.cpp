@@ -18,7 +18,8 @@ class Manager {
 
 public:
     explicit Manager() {
-        resource = std::make_unique<Resource>();
+        // resource = std::make_unique<Resource>();
+        resource = std::unique_ptr<Resource>(new Resource(3));
         if (true) {
             throw std::out_of_range("exception!!");
         }
