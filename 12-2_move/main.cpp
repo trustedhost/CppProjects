@@ -2,7 +2,7 @@
 #include "mystring.h"
 
 template <typename T>
-void my_swap(T a, T b) {
+void my_swap(T& a, T& b) {
     T temp;
     temp = a;
     a = b;
