@@ -1,18 +1,19 @@
 #include <iostream>
-
-
-
+// template <typename T>
+// void wrapper(const T& u) {
+//     g(u);
+// }
+// template <typename T>
+// void wrapper(T& u) {
+//     g(u);
+// }
 template <typename T>
-void wrapper(const T& u) {
-    g(u);
+void wrapper(T&& u) {
+    g(std::forward<T>(u));
 }
-template <typename T>
-void wrapper(T& u) {
-    g(u);
-}
+
 
 class A{};
-
 void g(A& a) { std::cout << "좌측값 레퍼런스 호출" << std::endl; }
 void g(const A& a) { std::cout << "좌측값 상수 레퍼런스 호출" << std::endl; }
 void g(A&& a) { std::cout << "우측값 레퍼런스 호출" << std::endl; }
