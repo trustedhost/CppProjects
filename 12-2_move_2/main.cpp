@@ -11,7 +11,7 @@ public:
 class B {
     A a_;
 public:
-    B(A a_) : a_(a_) {}
+    B(const A& a_) : a_(a_) {}
 };
 
 int main()
