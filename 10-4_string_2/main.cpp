@@ -6,8 +6,12 @@ void* operator new(std::size_t count) {
     return malloc(count);
 }
 
-// 문자열에 "very" 라는 단어가 있으면 true 를 리턴함
-bool contains_very(const std::string& str) {
+// // 문자열에 "very" 라는 단어가 있으면 true 를 리턴함
+// bool contains_very(const std::string& str) {
+//     return str.find("very") != std::string::npos;
+// }
+
+bool contains_very(std::string_view str) {
     return str.find("very") != std::string::npos;
 }
 
