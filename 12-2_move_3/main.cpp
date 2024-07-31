@@ -3,7 +3,11 @@
 
 
 template <typename T>
-void wrapper(T u) {
+void wrapper(const T& u) {
+    g(u);
+}
+template <typename T>
+void wrapper(T& u) {
     g(u);
 }
 
