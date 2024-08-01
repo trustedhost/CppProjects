@@ -20,8 +20,14 @@ int main()
 
     std::vector<int> size_vec(container.size());
 
+    struct func {
+        int operator() (const std::vector<int>& vec) const {
+            return vec.size();
+        }
+    };
 
-    std::transform(container.begin(), container.end(), size_vec.begin(), [](const auto &v)->int { return v.size();});
+    // std::transform(container.begin(), container.end(), size_vec.begin(), [](const auto &v)->int { return v.size();});
+    std::transform(container.begin(), container.end(), size_vec.begin(),func());
     for (auto itr = size_vec.begin(); itr < size_vec.end(); itr++ ){
         std::cout << *itr << std::endl;
     }
