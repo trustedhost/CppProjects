@@ -32,8 +32,9 @@ int main()
     // 멤버함수의 경우 객체에 먼저 접근해서 함수포인터를 끌어와야 한다.
     // std::transform(container.begin(), container.end(), size_vec.begin(), &std::vector<int>::size ); (X) 잘못된 접근.
     std::function<int(const std::vector<int>& vec)> size_func = &std::vector<int>::size;
-    std::transform(container.begin(), container.end(), size_vec.begin(), size_func);
+    // std::transform(container.begin(), container.end(), size_vec.begin(), size_func);
 
+    std::transform(container.begin(), container.end(), size_vec.begin(), std::mem_fn(&std::vector<int>::size));
 
     for (auto itr = size_vec.begin(); itr < size_vec.end(); itr++ ){
         std::cout << *itr << std::endl;
