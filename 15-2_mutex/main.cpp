@@ -15,17 +15,9 @@ void func(int& count, std::mutex& m1, std::mutex& m2) {
 
 void func2(int& count, std::mutex& m1, std::mutex& m2) {
     for(int i = 0; i < 10000; i++) {
-        while (true) {
-            m2.lock();
-            if (!m1.try_lock()) {
-                m2.unlock();
-                continue;
-            }
-            count += 1;
-            m1.unlock();
-            m2.unlock();
-            break;
-        }
+        std::lock_guard<std::mutex> lock(m1);
+        std::lock_guard<std::mutex> lock2(m2);
+        count += 1;
     }
 }
 
