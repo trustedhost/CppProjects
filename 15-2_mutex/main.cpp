@@ -7,9 +7,8 @@ using std::vector;
 
 void func(int& count, std::mutex& m) {
     for(int i = 0; i < 10000; i++) {
-        m.lock();
+        std::lock_guard<std::mutex> lock(m);
         count += 1;
-        m.unlock();
     }
 }
 
