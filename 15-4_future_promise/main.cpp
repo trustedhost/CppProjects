@@ -1,33 +1,20 @@
 #include <iostream>
+#include <thread>
 #include <future>
-#include <string>
 
-using std::string;
-
-void runner(std::shared_future<string> start) {
-    start.get();
-    std::cout << "출발" << std::endl;
+int some_task(int n) {
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    return n * 10;
 }
 
 int main() {
-    std::promise<string> p;
-    std::shared_future<string> start = p.get_future();
+    std::packaged_task<int(int)> task(some_task);
+    std::future<int> data = task.get_future();
+    std::thread t(std::move(task), 5);
 
-    std::thread t(runner, start);
-    std::thread t2(runner, start);
-    std::thread t3(runner, start);
-    std::thread t4(runner, start);
-
-    std::cerr << "준비" << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    std::cerr << "땅" << std::endl;
-    p.set_value("haha");
+    std::cout << "비동기적으로 이놈은 처리" << std::endl;
+    data.wait();
+    std::cout << data.get() << std::endl;
 
     t.join();
-    t2.join();
-    t3.join();
-    t4.join();
-
-
-    return 0;
 }
