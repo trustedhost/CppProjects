@@ -27,24 +27,12 @@ void ThreadPool::WorkerThread()
         if (stop_all && jobs_.empty()) {
             return ;
         }
-        std::function<void()> job = jobs_.front();
+        std::function<void()> job = std::move(jobs_.front());
         jobs_.pop();
         lk.unlock();
 
         job();
     }
-}
-
-void ThreadPool::EnqueueJob(std::function<void()> job)
-{
-    if (stop_all) {
-        throw std::runtime_error("threadpool full.");
-    }
-    {
-        std::lock_guard<std::mutex> lk(m_job_q_);
-        jobs_.push(job);
-    }
-    cv_job_q_.notify_one();
 }
 
 

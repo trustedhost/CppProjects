@@ -1,19 +1,21 @@
-#include <iostream>
 #include "threadpool.h"
 
-void work(int t, int id) {
+
+int work(int t, int id) {
     printf("%d start \n", id);
     std::this_thread::sleep_for(std::chrono::seconds(t));
-    printf("%d end after %d sec\n", id, t);
-
+    printf("%d end after %ds\n", id, t);
+    return t + id;
 }
 
-int main()
-{
+int main() {
     ThreadPool pool(3);
 
+    std::vector<std::future<int>> futures;
     for (int i = 0; i < 10; i++) {
-        pool.EnqueueJob([i](){work(i % 3 + 1, i);});
+        futures.emplace_back(pool.EnqueueJob(work, i % 3 + 1, i));
     }
-    return 0;
+    for (auto& f : futures) {
+        printf("result : %d \n", f.get());
+    }
 }

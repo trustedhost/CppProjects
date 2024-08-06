@@ -2,6 +2,7 @@
 #define THREADPOOL_H
 #include <cstddef>
 #include <thread>
+#include <future>
 #include <vector>
 #include <queue>
 
@@ -18,7 +19,29 @@ class ThreadPool
 public:
     ThreadPool(size_t num_threads);
     ~ThreadPool();
-    void EnqueueJob(std::function<void()> job);
+
+    template <class F, class... Args>
+    std::future<typename std::result_of<F(Args...)>::type> EnqueueJob(F f, Args... args);
 };
+
+template<class F, class... Args>
+std::future<typename std::result_of<F(Args...)>::type> ThreadPool::EnqueueJob(F f, Args... args)
+{
+    if (stop_all) {
+        throw std::runtime_error("threadpool error");
+    }
+
+    using return_type = typename std::result_of<F(Args...)>::type;
+    auto job = std::make_shared<std::packaged_task<return_type()>>(std::bind(f, args...));
+    std::future<return_type> job_result_future = job->get_future();
+
+    {
+        std::lock_guard<std::mutex> lk(m_job_q_);
+        jobs_.push([job](){(*job)();});
+    }
+    cv_job_q_.notify_one();
+    return job_result_future;
+
+}
 
 #endif // THREADPOOL_H
