@@ -8,7 +8,8 @@ using std::thread;
 
 void worker(std::atomic<int>* counter) {
     for(int i = 0; i < 10000; i++) {
-        (*counter)++;
+        // (*counter)++;
+        counter->fetch_add(1, std::__1::memory_order_relaxed);
     }
 }
 
@@ -24,7 +25,6 @@ int main()
     }
 
     std::cout << counter << std::endl;
-
 
     return 0;
 }
