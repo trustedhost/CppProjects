@@ -2,19 +2,27 @@
 #include <thread>
 #include <future>
 
-int some_task(int n) {
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    return n * 10;
+int sum(const std::vector<int>& v, int start, int end) {
+    int total = 0;
+    for (int i = start; i < end; ++i) {
+        total += v[i];
+    }
+    return total;
+}
+
+int parallel_sum(const std::vector<int>& v) {
+    std::future<int> lower_half_future = std::async(std::launch::async, sum, cref(v), 0, v.size() / 2);
+    int upper_half = sum(cref(v), v.size()/2, v.size());
+    return lower_half_future.get() + upper_half;
 }
 
 int main() {
-    std::packaged_task<int(int)> task(some_task);
-    std::future<int> data = task.get_future();
-    std::thread t(std::move(task), 5);
+    std::vector<int> v;
+    v.reserve(1000);
 
-    std::cout << "비동기적으로 이놈은 처리" << std::endl;
-    data.wait();
-    std::cout << data.get() << std::endl;
+    for (int i = 0; i < 1000; ++i) {
+        v.push_back(i + 1);
+    }
 
-    t.join();
+    std::cout << "1부터 1000까지의 합 : " << parallel_sum(v) << std::endl;
 }
