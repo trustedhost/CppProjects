@@ -1,31 +1,23 @@
 #include <iostream>
 #include <thread>
 #include <string>
-#include <condition_variable>
-#include <mutex>
+#include <future>
 
-std::mutex m;
-std::condition_variable cv;
-bool done = false;
-std::string info;
+using std::string;
 
-void worker() {
-    {
-        std::lock_guard<std::mutex> lk(m);
-        info = "hello world";
-        done = true;
-    }
-    cv.notify_all();
+void worker(std::promise<string>* p) {
+    p->set_value("some data");
 }
 
 int main() {
-    std::thread t(worker);
+    std::promise<string> p;
+    std::future<string> data = p.get_future();
 
-    std::unique_lock<std::mutex> lk(m);
-    cv.wait(lk, [](){ return done; });
-    lk.unlock();
+    std::thread t(worker, &p);
 
-    std::cout << info << std::endl;
+    data.wait();
+    std::cout << data.get() << std::endl;
 
     t.join();
+
 }
