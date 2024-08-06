@@ -1,31 +1,33 @@
 #include <iostream>
-#include <thread>
-#include <string>
 #include <future>
+#include <string>
 
 using std::string;
 
-void worker(std::promise<string>* p) {
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-    p->set_value("hello");
+void runner(std::shared_future<string> start) {
+    start.get();
+    std::cout << "출발" << std::endl;
 }
 
 int main() {
     std::promise<string> p;
-    std::future<string> data = p.get_future();
+    std::shared_future<string> start = p.get_future();
 
-    std::thread t(worker, &p);
+    std::thread t(runner, start);
+    std::thread t2(runner, start);
+    std::thread t3(runner, start);
+    std::thread t4(runner, start);
 
-    while (true) {
-        std::future_status status = data.wait_for(std::chrono::seconds(1));
-        if (status == std::future_status::timeout) {
-            std::cerr << ">" ;
-        }
-        if (status == std::future_status::ready) {
-            break;
-        }
-    }
-    std::cout << data.get();
+    std::cerr << "준비" << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::cerr << "땅" << std::endl;
+    p.set_value("haha");
+
     t.join();
+    t2.join();
+    t3.join();
+    t4.join();
 
+
+    return 0;
 }
