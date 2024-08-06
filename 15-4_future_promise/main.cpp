@@ -12,8 +12,11 @@ int sum(const std::vector<int>& v, int start, int end) {
 
 int parallel_sum(const std::vector<int>& v) {
     // std::future<int> lower_half_future = std::async(std::launch::async, sum, cref(v), 0, v.size() / 2);
-    std::future<int> lower_half_future = std::async(std::launch::deferred, sum, cref(v), 0, v.size() / 2);
+    // std::future<int> lower_half_future = std::async(std::launch::deferred, sum, cref(v), 0, v.size() / 2);
     //deferred 옵션을 통해서, threading 하지 않고 처리 가능하다.
+
+    std::future<int> lower_half_future = std::async(std::launch::async, [&v](){ return sum(v, 0, v.size()/2);});
+
     int upper_half = sum(cref(v), v.size()/2, v.size());
     return lower_half_future.get() + upper_half; //get 하는 시점에서 sum 함수가 실행됨.
 }
