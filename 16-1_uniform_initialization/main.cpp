@@ -1,5 +1,8 @@
 #include <iostream>
 #include <map>
+#include <string>
+
+using namespace std::string_literals;
 
 class A {
     int k;
@@ -52,6 +55,9 @@ int main()
     auto r = {1, 2};
     // auto s{1, 2}; // error
 
+
+    auto const_chars = {"hello", "my", "name", "is", "chae hoon"};
+    auto strings = {"hello"s, "my"s, "name"s, "is"s, "chae hoon"s};
 
 
     return 0;
