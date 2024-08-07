@@ -13,6 +13,14 @@ public:
             std::cout << *iter << " ";
         }
     }
+    A(std::initializer_list<double> lst) {
+        for (auto iter = lst.begin(); iter != lst.end(); iter++) {
+            std::cout << *iter << " ";
+        }
+    }
+    // 주의사항. Initializer list 에서 암시적으로 형변환이 발생할 가능성이 있다면 ( 이 경우 int -> double ) 중의성을 가지게 되고,
+    // 중의성을 가지는 경우 initializer list 를 인자로 하는 "함수" 가 최우선시된다. ( 이 경우 생성자보다 우선된다. )
+
 };
 
 A func() {
