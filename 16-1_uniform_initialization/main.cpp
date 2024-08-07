@@ -4,7 +4,7 @@
 class A {
     int k;
 public:
-    A(int a = 0) : k(a) {}
+    A(double a = 0) : k(a) {}
     int get_k() {
         return k;
     }
@@ -13,7 +13,7 @@ public:
             std::cout << *iter << " ";
         }
     }
-    A(std::initializer_list<double> lst) {
+    A(std::initializer_list<int> lst) {
         for (auto iter = lst.begin(); iter != lst.end(); iter++) {
             std::cout << *iter << " ";
         }
@@ -36,9 +36,9 @@ int main()
     // A a(3.5);
     // A b{3.5}; // impilicit , narrowing(데이터 손실 존재) 형변환을 인정하지 않는다.
 
-    A a(1);
-    A b{2};
-    A c = {3};
+    A a(1.5); // OK
+    A b{2.5}; //Error. (narrowing)
+    A c = {3.5}; //Error. (narrowing)
 
     std::cout << a.get_k() << b.get_k() << c.get_k()<< std::endl;
 
