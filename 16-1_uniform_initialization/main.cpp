@@ -8,6 +8,11 @@ public:
     int get_k() {
         return k;
     }
+    A(std::initializer_list<std::string> lst) {
+        for (auto iter = lst.begin(); iter != lst.end(); iter++) {
+            std::cout << *iter << " ";
+        }
+    }
 };
 
 A func() {
@@ -30,10 +35,7 @@ int main()
     std::cout << a.get_k() << b.get_k() << c.get_k()<< std::endl;
 
 
-
-
-
-
+    A {"hello", "my", "name", "is", "chae hoon"};
 
     return 0;
 }
