@@ -1,18 +1,20 @@
 #include <iostream>
 #include <type_traits>
 
-class A {};
+class A {
+public:
+    int i;
+    A(int i = 1) : i(i) {}
+    ~A() = default;
+};
 
 
-template <typename T>
-void only_integer(const T& t){
-    // static_assert(std::is_integral<T>::value);
-    std::cout << " ";
-}
 
 int main()
 {
-    A a;
-    only_integer(1);
-    only_integer(a);
+    int A::* p_i = &A::i;
+
+    A a(3);
+    std::cout << a.i << '\n';
+    std::cout << a.*p_i;
 }
