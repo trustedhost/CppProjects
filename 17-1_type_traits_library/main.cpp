@@ -1,31 +1,18 @@
 #include <iostream>
 #include <type_traits>
 
-template <typename T>
-struct is_void {
-    static constexpr bool value = false;
-};
-
-template <>
-struct is_void<void> {
-    static constexpr bool value = true;
-};
-
+class A {};
 
 
 template <typename T>
-void tell_type() {
-    if (is_void<T>::value) {
-        std::cout << "t 는 void" << '\n';
-    } else {
-        std::cout << "t 는 void 가 아니다." << '\n';
-    }
+void only_integer(const T& t){
+    // static_assert(std::is_integral<T>::value);
+    std::cout << " ";
 }
 
 int main()
 {
-    tell_type<int>();
-    tell_type<void>();
-
-
+    A a;
+    only_integer(1);
+    only_integer(a);
 }
